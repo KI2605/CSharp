@@ -11,6 +11,7 @@ namespace chapter1and2
             Console.WriteLine("input your age");         
             int age = Convert.ToInt32(Console.ReadLine());
             int flag = 0;
+			int s=0;
             while (flag != 1)
             {
                 if (age > 0 && age < 256)
