@@ -92,6 +92,54 @@ namespace chapter1and2
             Console.WriteLine(res);
         }
 
+        static int Factorial(int x)
+        {
+            if (x == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return x * Factorial(x - 1);
+            }
+        }
+        enum Operation
+        {
+            Add = 1,
+            Subtract,
+            Multiply,
+            Divide
+        }
+
+        static void MathOp(double x, double y, Operation op)
+        {
+            double result = 0.0;
+
+            switch (op)
+            {
+                case Operation.Add:
+                    result = x + y;
+                    break;
+                case Operation.Subtract:
+                    result = x - y;
+                    break;
+                case Operation.Multiply:
+                    result = x * y;
+                    break;
+                case Operation.Divide:
+                    result = x / y;
+                    break;
+            }
+            Console.WriteLine("Результат операции равен {0}", result);
+        }
+
+        static (string,int)GetVal()
+        {
+            string name = Console.ReadLine();
+            int age =Byte.Parse(Console.ReadLine());
+
+            return (name, age);
+        }
 
         static void Main(string[] args)
         {
@@ -215,7 +263,18 @@ namespace chapter1and2
             //Console.WriteLine($"stroka={f}");
             Calc(1,2,7,8);
 
+            int fa =Int32.Parse(Console.ReadLine());
 
+            Console.WriteLine(Factorial(fa));
+
+            // Тип операции задаем с помощью константы Operation.Add, которая равна 1
+        MathOp(10, 5, Operation.Add);
+            // Тип операции задаем с помощью константы Operation.Multiply, которая равна 3
+            MathOp(11, 5, Operation.Multiply);
+
+
+            var (name, age) = GetVal();
+            Console.WriteLine($"name: {name} age: {age}");
         }
     }
 }
