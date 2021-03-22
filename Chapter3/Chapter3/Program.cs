@@ -56,25 +56,29 @@ namespace Chapter3
                                   // указывают на один объект в хипе
             Console.WriteLine(state1.country.x); // 8
             Console.WriteLine(state2.country.x); // 8
+            Console.WriteLine("-----------------/n");
             //
                 Person p = new Person { name = "Tom", age = 23 };
                 ChangePerson(ref p);
 
                 WriteLine(p.name); // Bill
                 WriteLine(p.age); // 45
+            Console.WriteLine("-----------------/n");
             //
             Human j = new Human { name = "Jack"};
             Console.WriteLine("Please, tell me your age");
             j.Age = Int32.Parse(ReadLine());
             WriteLine($"Name: {j.name} Age: {j.Age}");
-
+            Console.WriteLine("-----------------/n");
             //
             Access acc = new Access();
             acc.internalMethod();
             acc.protectedInternalMethod();
             acc.publicMethod();
+
+            Console.WriteLine("-----------------/n");
             //
-             int v = Int32.Parse(ReadLine());
+            int v = Int32.Parse(ReadLine());
             IncrementVal(v);
             IncrementVal(ref v);
             
@@ -86,10 +90,11 @@ namespace Chapter3
             Console.WriteLine("period");
             int period = Int32.Parse(ReadLine());
             Console.WriteLine(Account.GetSum(sum,rate,period));
-
+            Console.WriteLine("-----------------/n");
             //
             Uther uth = new Uther("rob",67);
             Console.WriteLine(uth.Age);
+            Console.WriteLine("-----------------/n");
             //
             Strana ss1 = new Strana();
             ss1.Area = 120000;
@@ -109,14 +114,30 @@ namespace Chapter3
             }
             
             Console.WriteLine($"New Country population={state3.Population} New Country Area={state3.Area}");
-
+            Console.WriteLine("-----------------/n");
             //
             Bread bread = new Bread { Weight = 80 };
             Butter butter = new Butter { Weight = 20 };
             Sandwich sandwich = bread + butter;
             Console.WriteLine(sandwich.Weight);
 
+            Console.WriteLine("-----------------/n");
+            ///
+
+            People people = new People();
+            people[0] = new Pers { Name = "Tom" };
+            people[1] = new Pers { Name = "Bob" };
+
+            Console.WriteLine(people[0].Name);      // Tom
+            Console.WriteLine(people["Bob"].Name);  // Bob
+            Console.WriteLine("-----------------/n");
+
+            Team team = new Team();
+            team[20] = new FootballPlayer { Name = Console.ReadLine(), Number = Int32.Parse(Console.ReadLine()) };
+            //team[0] = new FootballPlayer { Name = "Ronaldo", Number = 9 };
+            Console.WriteLine($"Name: {team[0].Name} Number: {team[0].Number}");
             Read();
+
         }
         static void ChangePerson(ref Person person)
         {
@@ -169,6 +190,47 @@ namespace Chapter3
             
             public int Weight { get; set; } // масса
             
+        }
+
+        class Pers
+        {
+            public string Name { get; set; }
+            public int Age { get; set; }
+        }
+        class People
+        {
+            Pers[] data;
+            public People()
+            {
+                data = new Pers[5];
+            }
+            public Pers this[int index]
+            {
+                get
+                {
+                    return data[index];
+                }
+                set
+                {
+                    data[index] = value;
+                }
+            }
+            public Pers this[string name]
+            {
+                get
+                {
+                    Pers person = null;
+                    foreach (var p in data)
+                    {
+                        if (p?.Name == name)
+                        {
+                            person = p;
+                            break;
+                        }
+                    }
+                    return person;
+                }
+            }
         }
     }
 }
