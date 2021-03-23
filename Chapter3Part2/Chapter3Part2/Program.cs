@@ -72,14 +72,42 @@ namespace Chapter3Part2
             Console.WriteLine(p1Ep2);
             bool p1Ep3 = person1.Equals(person3);   // true
 
-            Account<int> account1 = new Account<int> { Sum = 5000 };
-            Account<string> account2 = new Account<string> { Sum = 4000 };
-            account1.Id = 2;        // упаковка не нужна
-            account2.Id = "4356";
-            int id1 = account1.Id;  // распаковка не нужна
-            string id2 = account2.Id;
-            Console.WriteLine(id1);
-            Console.WriteLine(id2);
+            //Account<int> account1 = new Account<int> { Sum = 5000 };
+            //Account<string> account2 = new Account<string> { Sum = 4000 };
+            //account1.Id = 2;        // упаковка не нужна
+            //account2.Id = "4356";
+            //int id1 = account1.Id;  // распаковка не нужна
+            //string id2 = account2.Id;
+            //Console.WriteLine(id1);
+            //Console.WriteLine(id2);
+
+            Collection<int> numbers = new Collection<int>();
+            numbers.Add(1);
+            numbers.Add(3);
+            numbers.Add(5);
+
+            numbers.Remove(2); // попытка удалить элемента, которого нет в коллекции
+            numbers.Remove(3);
+
+
+            for (int i = 0; i < numbers.Count(); i++)
+            {
+                Console.WriteLine(numbers.GetItem(i));
+            }
+
+            Account<int> acc1 = new Account<int>(1857) { Sum = 4500 };
+            Account<int> acc2 = new Account<int>(3453) { Sum = 5000 };
+
+            Transact<Account<int>>(acc1, acc2, 900);
+        }
+        public static void Transact<T>(T acc1, T acc2, int sum) where T : Account<int>
+        {
+            if (acc1.Sum > sum)
+            {
+                acc1.Sum -= sum;
+                acc2.Sum += sum;
+            }
+            Console.WriteLine($"acc1: {acc1.Sum}   acc2: {acc2.Sum}");
         }
     }
     class Clock
@@ -156,5 +184,68 @@ namespace Chapter3Part2
         T id = default(T);
         public T Id { get; set; }
         public int Sum { get; set; }
+        public Account(T _id)
+        {
+            Id = _id;
+        }
+    }
+    class Collection<T>
+    {
+        T[] data;   // массив с данными
+        public Collection()
+        {
+            data = new T[0];
+        }
+        // добавление данных
+        public void Add(T item)
+        {
+            T[] newData = new T[data.Length + 1];
+            for (int i = 0; i < data.Length; i++)
+            {
+                newData[i] = data[i];
+            }
+            newData[data.Length] = item;
+            data = newData;
+        }
+        // удаление данных - удаляем первое вхождение элемента при его наличии
+        public void Remove(T item)
+        {
+            // находим индекс элемента
+            int index = -1;
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i].Equals(item))
+                {
+                    index = i;
+                    break;
+                }
+            }
+            // удаляем элемент по индексу
+            if (index > -1)
+            {
+                T[] newData = new T[data.Length - 1];
+                for (int i = 0, j = 0; i < data.Length; i++)
+                {
+                    if (i == index) continue;
+                    newData[j] = data[i];
+                    j++;
+                }
+                data = newData;
+            }
+        }
+        // получение элемента по индексу
+        public T GetItem(int index)
+        {
+            if (index > -1 && index < data.Length)
+            {
+                return data[index];
+            }
+            else
+                throw new IndexOutOfRangeException();
+        }
+        public int Count()
+        {
+            return data.Length;
+        }
     }
 }
