@@ -60,7 +60,6 @@ namespace Task
             Console.WriteLine(rec);
             string val = (string)mas1;
             Console.WriteLine(val);
-            mas3 = new Massiv();
         }
     }
 }
